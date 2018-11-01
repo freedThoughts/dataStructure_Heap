@@ -95,4 +95,8 @@ public class Heap<T extends Comparable> {
     public int size(){
         return this.firstFreeIndex;
     }
+
+    public boolean isEmpty(){
+        return this.firstFreeIndex == 0;
+    }
 }
