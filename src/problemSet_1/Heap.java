@@ -24,6 +24,21 @@ public class Heap<T extends Comparable> {
         this.array = (T[]) Array.newInstance(classType, this.capacity);
     }
 
+    // Time Complexity ~~ O(n) -- as percolating in reverse order.
+    // Percolation cost would be O(1) for each of the parentIndex because next recursive call of percolation would be already in correct order
+    Heap(boolean isMaxHeap, T[] array) {
+        if (array == null || array.length == 0) throw new RuntimeException("Array is empty");
+        this.capacity = array.length;
+        this.isMaxHeap = isMaxHeap;
+        this.classType = (Class<T>) array[0].getClass();
+        this.array = (T[]) Array.newInstance(classType, this.capacity);
+        for (int i = 0; i < array.length; i++)
+            this.array[i] = array[i];
+
+        for (int parentIndex = this.parentIndex(array.length-1); parentIndex >=0; parentIndex--)
+            this.percolateDown(parentIndex);
+    }
+
     public int parentIndex(int childIndex) {
         if (childIndex < 1 || childIndex >= firstFreeIndex) return -1;
         return (childIndex -1)/2;
@@ -99,4 +114,6 @@ public class Heap<T extends Comparable> {
     public boolean isEmpty(){
         return this.firstFreeIndex == 0;
     }
+
+
 }
